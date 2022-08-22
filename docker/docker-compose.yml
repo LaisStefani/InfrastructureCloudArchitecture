@@ -1,0 +1,28 @@
+version: '1'
+
+networks:
+  petclinic:
+    driver: bridge
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: "mysqldb"
+    restart: always
+    networks:
+      - petclinic
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=petclinic
+      - MYSQL_TCP_PORT=3306
+
+  web:
+    image: nginx
+    container_name: "nginx"
+    ports: 
+      - "8080:80"
+    networks:
+      - petclinic
+    environment:
+      - NGINX_HOST:auladocker.com
+      - NGINX_PORT=80
